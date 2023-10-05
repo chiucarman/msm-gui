@@ -1,4 +1,27 @@
 class MoviesController < ApplicationController
+  def update
+    # get the id out of params
+    m_id = params.fetch("the_id")
+
+    # look up the existing record
+    matching_records = Movie.where({ :id => m_id })
+    the_movie = matching_records.at(0)
+
+    # overwrite each column with the values from user inputs
+    the_movie.title = params.fetch("the_title")
+    the_movie.year = params.fetch("the_year")
+    the_movie.duration = params.fetch("the_duration")
+    the_movie.description = params.fetch("the_description")
+    the_movie.image = params.fetch("the_image")
+    the_movie.director_id = params.fetch("the_director_id")
+
+    # save
+    the_movie.save
+
+    # redirect to the movie details page
+    redirect_to("/movies/#{the_movie.id}")
+  end
+
   def create
     # params hash looks like this: {"the_title"=>"1", "the_year"=>"3", "the_duration"=>"6", "the_description"=>"7", "the_image"=>"9", "the_director_id"=>"4"}
 
