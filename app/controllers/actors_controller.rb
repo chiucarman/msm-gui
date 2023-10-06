@@ -12,6 +12,23 @@ class ActorsController < ApplicationController
     redirect_to("/actors")
   end
 
+  def update
+    the_id = params.fetch("the_id")
+
+    matching_records = Actor.where({ :id => the_id })
+
+    a = matching_records.at(0)
+
+    a.name = params.fetch("the_name")
+    a.dob = params.fetch("the_dob")
+    a.bio = params.fetch("the_bio")
+    a.image = params.fetch("the_image")
+
+    a.save
+
+    redirect_to("/actors/#{the_id}")
+  end
+
   def index
     matching_actors = Actor.all
     @list_of_actors = matching_actors.order({ :created_at => :desc })
